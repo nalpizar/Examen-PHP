@@ -33,7 +33,7 @@ class UserController {
      *
      * @return []
      */
-    public function getVidGame($request) {
+    public function createGame($request) {
         $result = [];
 
         /**
@@ -41,47 +41,15 @@ class UserController {
          * El valor de retorno de esa función es un diccionario con el contenido del formulario.
          */
         $formData = $request->getParsedBody();
-        $title = null;
-        $developer = null;
+        $title = 'dede';
+        $developer = 'dede';
+        $description = 'dede';
+        $console = 'dede';
+        $releaseDate = 2016-01-01;
+        $rate = 4;
+        $url = 'https://lh6.googleusercontent.com/-3XfQIrMuPcU/AAAAAAAAAAI/AAAAAAAAAZ8/lFyWhaRInZg/photo.jpg';
 
-        // Verificamos que efectivamente exista una entrada de title
-        if (array_key_exists("title", $formData)) {
-            $title = $formData["title"];
-        }
-
-        // Verificamos que efectivamente exista una entrada de password
-        if (array_key_exists("developer", $formData)) {
-            $developer = $formData["developer"];
-        }
-
-        /**
-         * Si tanto title y password están definidos, mandamos a llamar al método de login del servicio.
-         * Tenga en cuenta que el controlador solo pasa datos de un lado a otro, al servicio en PHP le toca revisar
-         * la validez de esos datos.
-         */
-        if (isset($title, $developer)) {
-            $loginResult = $this->userService->getVidGame($title, $developer);
-
-            if (array_key_exists("error", $loginResult)) {
-                $result["error"] = true;
-            } else {
-                /**
-                 * Si el usuario inició sesión, creamos un cookie llamado `loggedIn` y le asignamos el valor de true.
-                 * Este cookie se debe expirar en caso de cerrar sesión.
-                 * http://php.net/manual/en/function.setcookie.php
-                 */
-                setcookie($this->nombreCookie, true, time()+3600);
-            }
-
-            $result["message"] = $loginResult["message"];
-            $result["user"] = $loginResult["user"];
-        } else {
-            $result["error"] = true;
-            $result["message"] = "title and password can not be empty.";
-        }
-
-        // El array creado en ese método se envía como de vuelta al enrutador.
-        return $result;
+        return $this->userService->createGame($title, $developer, $description, $console, $releaseDate, $rate, $ur);
     }
 
     /**

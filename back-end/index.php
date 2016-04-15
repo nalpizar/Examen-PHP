@@ -31,7 +31,7 @@ $app->post(
         $userController = new App\Controllers\UserController();
 
         // Save result on the variable
-        $result = $userController->getVidGame($request);
+        $result = $userController->createGame($request);
 
         // Return a JSON with results from the front-end
         return $response->withJson($result);
