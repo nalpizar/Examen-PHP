@@ -27,27 +27,27 @@ class UserService {
     /**
      * Encargado de iniciar la sesión del usuario.
      *
-     * @param string $email
-     * @param string $password
+     * @param string $title
+     * @param string $developer
      *
      * @return array
      */
-    public function login($email, $password) {
+    public function getVidGame($title, $developer) {
         $result = [];
 
-        // Verificamos que el email, sin espacios, tenga por lo menos 1 caracter
-        if (strlen(trim($email)) > 0) {
-            // Verificamos que el email tenga formato de email
-            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        // Verificamos que el title, sin espacios, tenga por lo menos 1 caracter
+        if (strlen(trim($title)) > 0) {
+            // Verificamos que el title tenga formato de title
+            // if (filter_var($title, FILTER_VALIDATE_title)) {
                 // Verificamos que el password, sin espacios, tenga por lo menos 1 caracter
-                if (strlen(trim($password)) > 0) {
+                if (strlen(trim($developer)) > 0) {
                     // Si todo lo anterior tuvo éxito, iniciamos el query
 
                     // El query que vamos a ejecutar en la BD
-                    $query = "SELECT id, email, firstName FROM users WHERE email = :email AND password = :password LIMIT 1";
+                    $query = "SELECT id, title, developer FROM videGame WHERE title = :title AND developer = :developer LIMIT 1";
 
                     // Los parámetros de ese query
-                    $params = [":email" => $email, ":password" => $password];
+                    $params = [":title" => $title, ":developer" => $developer];
 
                     // Una vez que se cree la base de datos esté lista ésto se puede remover
                     if ($this->isDBReady) {
@@ -65,11 +65,11 @@ class UserService {
                             // Enviamos de vuelta a quien consumió el servicio datos sobre el usuario solicitado
                             $result["user"] = [
                                 "id" => $user["id"],
-                                "email" => $user["email"],
-                                "firstName" => $user["firstName"]
+                                "title" => $user["title"],
+                                "developer" => $user["developer"]
                             ];
                         } else {
-                            // No encontramos un usuario con ese email y password
+                            // No encontramos un usuario con ese title y password
                             $result["message"] = "Invalid credentials.";
                             $result["error"] = true;
                         }
@@ -83,45 +83,107 @@ class UserService {
                     $result["message"] = "Password is required.";
                     $result["error"] = true;
                 }
-            } else {
-                // El email no tiene formato de tal
-                $result["message"] = "Email is invalid.";
-                $result["error"] = true;
-            }
+            // } 
+            // else {
+                // El title no tiene formato de tal
+            //     $result["message"] = "title is invalid.";
+            //     $result["error"] = true;
+            // }
         } else {
-            // El email está en blanco
-            $result["message"] = "Email is required.";
+            // El title está en blanco
+            $result["message"] = "title is required.";
             $result["error"] = true;
         }
 
         return $result;
     }
 
+
+    public function getByID() {
+        $result = [];
+        $query = "SELECT * From videGame";
+
+
+
+        if ($this->isDBReady) {
+                        // El resultado de de ejecutar la sentencia se almacena en la variable `result`
+                        $resultado = $this->storage->query($query);
+
+                        // Si la setencia tiene por lo menos una fila, quiere decir que encontramos a nuestro usuario
+                        if (count($resultado['data']) > 0) {
+                            // Almacenamos el usuario en la variable `user`
+                            $details = $resultado['data'][0];
+                            // Definimos nuestro mensaje de éxito
+                            $result["message"] = "Game found.";
+
+                            // Enviamos de vuelta a quien consumió el servicio datos sobre el usuario solicitado
+                            $result["details"] = [
+                                "id" => $details["id"],
+                                "title" => $details["title"],
+                                "console" => $details["console"],
+                                "releaseDate" => $details["releaseDate"]
+                            ];
+                        } else {
+                            // No encontramos un usuario con ese title y password
+                            $result["message"] = "Invalid credentials.";
+                            $result["error"] = true;
+                        }
+                    }
+
+        return $result;
+    }
+
+    public function getDetails() {
+    $result = [];
+    $query = "SELECT * From videGame";
+
+
+
+    if ($this->isDBReady) {
+                    // El resultado de de ejecutar la sentencia se almacena en la variable `result`
+                    $resultado = $this->storage->query($query);
+
+                    // Si la setencia tiene por lo menos una fila, quiere decir que encontramos a nuestro usuario
+                    if (count($resultado['data']) > 0) {
+                        // Almacenamos el usuario en la variable `user`
+                        $details = $resultado['data'];
+                        // Definimos nuestro mensaje de éxito
+                        $result["message"] = "User found.";
+
+                        // Enviamos de vuelta a quien consumió el servicio datos sobre el usuario solicitado
+                            foreach ($details as $vidList) {
+                                 $result["data"][] = [
+                                "id" => $vidList["id"],
+                                "title" => $vidList["title"],
+                                "console" => $vidList["console"],
+                                "releaseDate" => $vidList["title"]
+                            ]; 
+                        }
+
+
+                       
+                    } else {
+                        // No encontramos un usuario con ese title y password
+                        $result["message"] = "Invalid game.";
+                        $result["error"] = true;
+                    }
+                }
+
+    return $result;
+}
+
+
+
+
     /**
      * Registra un nuevo usuario en el sistema.
      *
-     * @param string $email
-     * @param string $password
-     * @param string $passwordConfirm
+     * @param string $title
+     * @param string $developer
+     * @param string $developerConfirm
      * @param string $fullName
      *
      * @return array
      */
-    public function register($email, $password, $passwordConfirm, $fullName) {
-        $result = [];
-
-        /**
-         * TODO: Implementar
-         * Pasos
-         * - Verifique la existencia y validez de todos los datos, que todos existan y tengan el formato correcto,
-         * use como guía el método `login`.
-         * - Verifique que las contraseñas coincidan.
-         * - Verifique que el email no ha sido usado en el sistema.
-         * - Si todo lo anterior fue verificado existosamente, cree un nuevo usuario en el sistema y comuníquele a
-         * quién consumió el servicio el resultado de la operación en forma de un array similar al del método `login`.
-         */
-
-        return $result;
-    }
 
 }

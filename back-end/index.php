@@ -25,44 +25,51 @@ $app = new \Slim\App($contenedor);
 
 // Definimos nuestras rutas
 $app->post(
-    '/user/login',
+    '/user/create',
     function ($request, $response) {
-        // http://stackoverflow.com/questions/12158987/whats-the-meaning-of-var-in-php-comments
-        /** @var Request $request */
-        /** @var Response $response */
-        //copiar el controlador
-        // Pedimos una instancia del controlador del usuario
+
         $userController = new App\Controllers\UserController();
 
-        // Almacenamos el resultado de la operación en la siguiente variable
-        $result = $userController->login($request);
+        // Save result on the variable
+        $result = $userController->getVidGame($request);
 
-        // Retornamos un JSON con el resultado al Front-End
+        // Return a JSON with results from the front-end
         return $response->withJson($result);
     }
 );
 
+
+// Game List
 $app->get(
-    '/user/logout',
+    '/user/list',
     function ($request, $response) {
-        /** @var Request $request */
-        /** @var Response $response */
+        // Request for the controller
         $userController = new App\Controllers\UserController();
-        $result = $userController->logout($request);
+
+        // Save result on the variable
+        $result = $userController->getDetails($request);
+
+        // Return a JSON with results from the front-end
         return $response->withJson($result);
     }
 );
 
-$app->post(
-    '/user/register',
+
+// Game by ID
+$app->get(
+    '/user/game',
     function ($request, $response) {
-        /** @var Request $request */
-        /** @var Response $response */
+        // Request for the controller
         $userController = new App\Controllers\UserController();
-        $result = $userController->register($request);
+
+        // Save result on the variable
+        $result = $userController->getByID($request);
+
+        // Return a JSON with results from the front-end
         return $response->withJson($result);
     }
 );
 
-// Corremos la aplicación.
+
+// Run app.
 $app->run();

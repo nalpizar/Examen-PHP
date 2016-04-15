@@ -33,7 +33,7 @@ class UserController {
      *
      * @return []
      */
-    public function login($request) {
+    public function getVidGame($request) {
         $result = [];
 
         /**
@@ -41,26 +41,26 @@ class UserController {
          * El valor de retorno de esa función es un diccionario con el contenido del formulario.
          */
         $formData = $request->getParsedBody();
-        $email = null;
-        $password = null;
+        $title = null;
+        $developer = null;
 
-        // Verificamos que efectivamente exista una entrada de email
-        if (array_key_exists("email", $formData)) {
-            $email = $formData["email"];
+        // Verificamos que efectivamente exista una entrada de title
+        if (array_key_exists("title", $formData)) {
+            $title = $formData["title"];
         }
 
         // Verificamos que efectivamente exista una entrada de password
-        if (array_key_exists("password", $formData)) {
-            $password = $formData["password"];
+        if (array_key_exists("developer", $formData)) {
+            $developer = $formData["developer"];
         }
 
         /**
-         * Si tanto email y password están definidos, mandamos a llamar al método de login del servicio.
+         * Si tanto title y password están definidos, mandamos a llamar al método de login del servicio.
          * Tenga en cuenta que el controlador solo pasa datos de un lado a otro, al servicio en PHP le toca revisar
          * la validez de esos datos.
          */
-        if (isset($email, $password)) {
-            $loginResult = $this->userService->login($email, $password);
+        if (isset($title, $developer)) {
+            $loginResult = $this->userService->getVidGame($title, $developer);
 
             if (array_key_exists("error", $loginResult)) {
                 $result["error"] = true;
@@ -77,7 +77,7 @@ class UserController {
             $result["user"] = $loginResult["user"];
         } else {
             $result["error"] = true;
-            $result["message"] = "Email and password can not be empty.";
+            $result["message"] = "title and password can not be empty.";
         }
 
         // El array creado en ese método se envía como de vuelta al enrutador.
@@ -91,17 +91,21 @@ class UserController {
      *
      * @return string []
      */
-    public function logout($request) {
-        $result = [];
 
-        /**
-         * TODO: Implementar
-         * Pasos
-         * - Elimine cualquier cookie que se pudo haber creado en el back-end al iniciar sesión. Recuerde que para
-         * eliminar cookies, se debe poner una fecha de expiración en el pasado.
-         * Importante, este método no tiene llamada al servicio en PHP porque de momento no existe ninguna operación
-         * en el servicio que lo requiera. Esto podría cambiar en su aplicación.
-         */
+
+     public function getDetails() {
+            
+        $result = [];
+        $result = $this->userService->getDetails();
+
+        return $result;
+    }
+
+
+     public function getByID() {
+        
+        $result = [];
+        $result = $this->userService->getByID();
 
         return $result;
     }

@@ -24,7 +24,7 @@ class StorageService {
          */
         $config = [   //aqui se cambian los datos de la base datos
             'db_host' => '127.0.0.1',
-            'db_name' => 'practica',
+            'db_name' => 'examPHP',
             'db_user' => 'root',
             'db_pass' => 'root'
         ];
