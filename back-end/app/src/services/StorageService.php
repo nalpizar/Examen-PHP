@@ -23,10 +23,10 @@ class StorageService {
          * - Cambie el valor de la variable `$isDBReady` en el `UserService`.
          */
         $config = [   //aqui se cambian los datos de la base datos
-            'db_host' => '127.0.0.1',
-            'db_name' => 'examPHP',
-            'db_user' => 'root',
-            'db_pass' => 'root'
+            'db_host' => 'localhost',
+            'db_name' => 'pr1db',
+            'db_user' => 'pr1usuario',
+            'db_pass' => 'pr1password'
         ];
 
         // Creamos una nueva conexión.
@@ -64,10 +64,10 @@ class StorageService {
             $stmt->execute($params);
 
             // Ejecutamos la sentencia
-            while ($content = $stmt->fetch()) {
-                // Vaciando el contenido de cada fila dentro de `data` en el diccionario `result`.
-                $result['data'][] = $content;
-            }
+//            while ($content = $stmt->fetch()) {
+//                // Vaciando el contenido de cada fila dentro de `data` en el diccionario `result`.
+//                $result['data'][] = $content;
+//            }
         } catch (PDOException $e) {
             // En caso de que algo saliera mal con nuestro intento de conexión, el mensaje se envia de vuelta al
             // servicio que consumió este método.

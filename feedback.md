@@ -1,0 +1,12 @@
+- Obtener todos los juegos funciona
+- Obtener por id no funciona, siempre retorna el primero y retorna datos incompletos a los solicitados
+- Crear juego no funciona, tiene los datos quemados, un error en la variable URL y cuando se corrige lo anterior, retorna "general error" de parte de SQL
+- Editar juego no existe
+- Eliminar juego no existe
+- No siguieron el formato en el correo, perdieron el bono de Git
+- No hay instrucciones sobre como montar el proyecto
+- No hay instrucciones sobre el API
+- No hay informacion sobre la base de datos
+- No limpiaron los rastros del ejemplo de usuarios
+- No hay validaciones de ningun tipo
+- Usaron la primera versión del StorageService, brindada con la tarea de Login y no la completaron

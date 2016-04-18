@@ -49,7 +49,7 @@ class UserController {
         $rate = 4;
         $url = 'https://lh6.googleusercontent.com/-3XfQIrMuPcU/AAAAAAAAAAI/AAAAAAAAAZ8/lFyWhaRInZg/photo.jpg';
 
-        return $this->userService->createGame($title, $developer, $description, $console, $releaseDate, $rate, $ur);
+        return $this->userService->createGame($title, $developer, $description, $console, $releaseDate, $rate, $url);
     }
 
     /**

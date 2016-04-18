@@ -71,5 +71,5 @@ $app->get(
 );
 
 
-// Run app.
+// Run slimApp.
 $app->run();

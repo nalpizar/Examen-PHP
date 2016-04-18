@@ -37,20 +37,20 @@ class UserService {
 
 
         $query = "INSERT INTO videGame (title, developer, description, console, releaseDate, rate, url) VALUES (:title, :developer, :description, :console, :releaseDate, :rate, :url)";
-            $parametros = [
-                ":title" => $title,
-                ":developer" => $developer,
-                ":description" => $description,
-                ":console" => $console,
-                ":releaseDate" => $releaseDate,
-                ":rate" => $rate,
-                ":url" => $url
+        $parametros = [
+            ":title" => $title,
+            ":developer" => $developer,
+            ":description" => $description,
+            ":console" => $console,
+            ":releaseDate" => $releaseDate,
+            ":rate" => $rate,
+            ":url" => $url
 
-            ];
+        ];
 
-            $result = $this->storage->query($query, $parametros);
+        $result = $this->storage->query($query, $parametros);
 
-            return $result;
+        return $result;
     }
 
 
@@ -61,71 +61,71 @@ class UserService {
 
 
         if ($this->isDBReady) {
-                        // El resultado de de ejecutar la sentencia se almacena en la variable `result`
-                        $resultado = $this->storage->query($query);
+            // El resultado de de ejecutar la sentencia se almacena en la variable `result`
+            $resultado = $this->storage->query($query);
 
-                        // Si la setencia tiene por lo menos una fila, quiere decir que encontramos a nuestro usuario
-                        if (count($resultado['data']) > 0) {
-                            // Almacenamos el usuario en la variable `user`
-                            $details = $resultado['data'][0];
-                            // Definimos nuestro mensaje de éxito
-                            $result["message"] = "Game found.";
+            // Si la setencia tiene por lo menos una fila, quiere decir que encontramos a nuestro usuario
+            if (count($resultado['data']) > 0) {
+                // Almacenamos el usuario en la variable `user`
+                $details = $resultado['data'][0];
+                // Definimos nuestro mensaje de éxito
+                $result["message"] = "Game found.";
 
-                            // Enviamos de vuelta a quien consumió el servicio datos sobre el usuario solicitado
-                            $result["details"] = [
-                                "id" => $details["id"],
-                                "title" => $details["title"],
-                                "console" => $details["console"],
-                                "releaseDate" => $details["releaseDate"]
-                            ];
-                        } else {
-                            // No encontramos un usuario con ese title y password
-                            $result["message"] = "Invalid credentials.";
-                            $result["error"] = true;
-                        }
-                    }
+                // Enviamos de vuelta a quien consumió el servicio datos sobre el usuario solicitado
+                $result["details"] = [
+                    "id" => $details["id"],
+                    "title" => $details["title"],
+                    "console" => $details["console"],
+                    "releaseDate" => $details["releaseDate"]
+                ];
+            } else {
+                // No encontramos un usuario con ese title y password
+                $result["message"] = "Invalid credentials.";
+                $result["error"] = true;
+            }
+        }
 
         return $result;
     }
 
     public function getDetails() {
-    $result = [];
-    $query = "SELECT * From videGame";
+        $result = [];
+        $query = "SELECT * From videGame";
 
 
 
-    if ($this->isDBReady) {
-                    // El resultado de de ejecutar la sentencia se almacena en la variable `result`
-                    $resultado = $this->storage->query($query);
+        if ($this->isDBReady) {
+            // El resultado de de ejecutar la sentencia se almacena en la variable `result`
+            $resultado = $this->storage->query($query);
 
-                    // Si la setencia tiene por lo menos una fila, quiere decir que encontramos a nuestro usuario
-                    if (count($resultado['data']) > 0) {
-                        // Almacenamos el usuario en la variable `user`
-                        $details = $resultado['data'];
-                        // Definimos nuestro mensaje de éxito
-                        $result["message"] = "User found.";
+            // Si la setencia tiene por lo menos una fila, quiere decir que encontramos a nuestro usuario
+            if (count($resultado['data']) > 0) {
+                // Almacenamos el usuario en la variable `user`
+                $details = $resultado['data'];
+                // Definimos nuestro mensaje de éxito
+                $result["message"] = "User found.";
 
-                        // Enviamos de vuelta a quien consumió el servicio datos sobre el usuario solicitado
-                            foreach ($details as $vidList) {
-                                 $result["data"][] = [
-                                "id" => $vidList["id"],
-                                "title" => $vidList["title"],
-                                "console" => $vidList["console"],
-                                "releaseDate" => $vidList["title"]
-                            ]; 
-                        }
-
-
-                       
-                    } else {
-                        // No encontramos un usuario con ese title y password
-                        $result["message"] = "Invalid game.";
-                        $result["error"] = true;
-                    }
+                // Enviamos de vuelta a quien consumió el servicio datos sobre el usuario solicitado
+                foreach ($details as $vidList) {
+                    $result["data"][] = [
+                        "id" => $vidList["id"],
+                        "title" => $vidList["title"],
+                        "console" => $vidList["console"],
+                        "releaseDate" => $vidList["title"]
+                    ];
                 }
 
-    return $result;
-}
+
+
+            } else {
+                // No encontramos un usuario con ese title y password
+                $result["message"] = "Invalid game.";
+                $result["error"] = true;
+            }
+        }
+
+        return $result;
+    }
 
 
 
